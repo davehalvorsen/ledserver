@@ -1,0 +1,52 @@
+<img src="http://10.10.10.11:8081/" alt="http://10.10.10.11:8081/" width="497" height="373" class="shrinkToFit">
+
+
+<form method="get" action="index.php">
+
+<input class="red" type="submit" value="Turn Red LED On" name="ron">
+<input class="red" type="submit" value="Turn Red LED Off" name="roff">
+
+<input class="yellow" type="submit" value="Turn Yellow LED on" name="yon">
+<input class="yellow" type="submit" value="Turn Yellow LED off" name="yoff">
+
+<?php
+// 3.3V
+shell_exec("gpio -g mode 17 out");
+// GPIO25
+shell_exec("gpio -g mode 22 out");
+// DNC
+shell_exec("gpio -g mode 27 out");
+
+// GPIO11
+// shell_exec("gpio -g mode 23 out");
+// GPIO8
+// shell_exec("gpio -g mode 24 out");
+// GND
+// shell_exec("gpio -g mode 25 out");
+
+
+if(isset($_GET['roff']))
+{
+	shell_exec("gpio -g write 17 0");
+}
+else if(isset($_GET['ron']))
+{
+	shell_exec("gpio -g write 17 1");
+	}
+	else if(isset($_GET['yon']))
+	{
+		shell_exec("gpio -g write 27 1");
+	}
+	else if(isset($_GET['yoff']))
+	}
+		shell_exec("gpio -g write 27 0");
+	}
+	else if(isset($_GET['gon']))
+	{
+		shell_exec("gpio -g write 22 1");
+	}
+	else if(isset($_GET['goff']))
+	{
+		shell_exec("gpio -g write 22 0");
+	}
+?>

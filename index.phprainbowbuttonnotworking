@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<title>Control LED with Raspberry Pi using Apache Webserver </title>
+</head>
+	<style>
+	body 
+	{
+		background-color: rgb(212,250,252);
+		font-family: 'Arial';
+		
+	}
+	.red {
+		background-color: red;
+		width: 10em; height: 2em;
+		font-size: 10px;
+	}
+	.yellow {
+		background-color: yellow;
+		width: 10em; height: 2em;
+		font-size: 10px;
+	}
+	.green { 
+		background-color: green;
+		width: 10em; height: 2em;
+		font-size: 10px;
+	}
+	.blue{
+		background-color: blue;
+		width: 10em; height: 2em;
+		font-size: 10px;
+#rainbow-button {
+  border: none;
+  border-radius: 8px;
+  background-color: gray;
+  padding: 8px;
+}
+
+.rainbow-light {
+  animation: rainbow-animation 2.5s linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rainbow-animation {
+  100%, 0% {
+    background-color: rgb(255, 0, 0);
+  }
+  8% {
+    background-color: rgb(255, 127, 0);
+  }
+  16% {
+    background-color: rgb(255, 255, 0);
+  }
+  25% {
+    background-color: rgb(127, 255, 0);
+  }
+  33% {
+    background-color: rgb(0, 255, 0);
+  }
+  41% {
+    background-color: rgb(0, 255, 127);
+  }
+  50% {
+    background-color: rgb(0, 255, 255);
+  }
+  58% {
+    background-color: rgb(0, 127, 255);
+  }
+  66% {
+    background-color: rgb(0, 0, 255);
+  }
+  75% {
+    background-color: rgb(127, 0, 255);
+  }
+  83% {
+    background-color: rgb(255, 0, 255);
+  }
+  91% {
+    background-color: rgb(255, 0, 127);
+  }
+}
+	</style>
+
+       <body>
+       <center><h1>Control LED from web using Apache Webserver</h1>
+	<IMG SRC="HTTP://103.211.181.50:8081/" ALT="HTTP:/103.211.181.50:8081/" WIDTH="497" HEIGHT="373" CLASS="SHRINKTOFIT">
+         <form method="get" action="index.php">
+            <input class ="red" type="submit"  value="Turn Red LED On" name="ron">
+	    <input class=" red" type="submit"  value="Turn Red LED Off" name="roff">
+	    <br /> <br />
+	    <input class="yellow" type="submit" value="Turn Yellow LED On" name="yon">
+	    <input class="yellow" type="submit" value="Turn Yellow LED Off" name="yoff">
+      	    <br /> <br />
+	    <input class="green" type="submit" value="Turn Green LED On" name="gon">
+	    <input class="green" type="submit" value="Turn Green LED Off" name="goff">
+	    <br /> <br />
+	    <input class="blue" type="submit" value="Turn Blue LED On" name="bon">
+	    <input class="blue" type="submit" value="Turn Blue LED Off" name="boff">
+	    <br /> <br />
+	   <input class="rainbow" type="submit" value="Turn Rainbow LED On" name="rainbowon">
+	    <input class="rainbow" type="submit" value="Turn Rainbow LED Off" name="rainbowoff">
+<input id="rainbow-button" type="button" onclick="toggleLight()" value="Rainbow button">
+</form>
+
+                         </center>
+
+
+<?php
+// red LED, GPIO17, pin 11
+shell_exec("gpio -g mode 17 out");
+// blue LED, GPIO18, pin12
+shell_exec("gpio -g mode 18 out");
+// green LED GPIO22, pin 15
+shell_exec("gpio -g mode 22 out");
+// yellow LED, GPIO27, pin 13
+shell_exec("gpio -g mode 27 out");
+// rainbow LED, GPIO4, pin 7
+shell_exec("gpio -g mode 4 out");
+
+// red LED off
+if(isset($_GET['roff']))
+{
+	shell_exec("gpio -g write 17 0");
+}
+// red LED on
+else if(isset($_GET['ron']))
+{
+	shell_exec("gpio -g write 17 1");
+	}
+	// yellow LED on
+	else if(isset($_GET['yon']))
+	{
+		shell_exec("gpio -g write 27 1");
+	}
+	// yellow LED off
+	else if(isset($_GET['yoff']))
+	{
+		shell_exec("gpio -g write 27 0");
+	}
+	// green LED on
+	else if(isset($_GET['gon']))
+	{
+		shell_exec("gpio -g write 22 1");
+	}
+	// green LED off
+	else if(isset($_GET['goff']))
+	{
+		shell_exec("gpio -g write 22 0");
+	}
+	// blue LED on
+	else if(isset($_GET['bon']))
+	{
+		shell_exec("gpio -g write 18 1");
+	}
+	// blue LED off
+	else if(isset($_GET['boff']))
+	{
+		shell_exec("gpio -g write 18 0");
+	}
+	// rainbow LED on
+	else if(isset($_GET['rainbowon']))
+	{
+		shell_exec("gpio -g write 4 1");
+	}
+	// rainbow LED off
+	else if(isset($_GET['rainbowoff']))
+	{
+		shell_exec("gpio -g write 4 0");
+	}
+?>
+<script>
+
+
+let rainbowButton = document.getElementById("rainbow-button");
+
+function toggleLight() {
+  if (rainbowButton.classList.contains("rainbow-light"))
+    rainbowButton.classList.remove("rainbow-light")
+  else
+    rainbowButton.classList.add("rainbow-light")
+}
+</script>
+   </body>
+</html>
